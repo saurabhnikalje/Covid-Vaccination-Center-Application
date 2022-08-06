@@ -1,0 +1,22 @@
+trigger Duplicate on Response__c (before insert) {
+    //Added this Trigger to Delete the Centers with old data so that we can insert the centers with Latest data to be added.    
+    List<Response__c> acc = new List<Response__c>();
+    List<Id> accToDeleteIds = new List<Id>();
+    acc = [Select id,Center_ID__c from Response__c];
+    Set<Decimal> centersAlreadyPresent = new Set<Decimal>();
+    for(Response__c a1:acc){
+        centersAlreadyPresent.add(a1.Center_ID__c);
+    }
+    for(Response__c a:Trigger.New){
+        if(centersAlreadyPresent.contains(a.Center_ID__c)){
+                accToDeleteIds.add(a.Id);
+            }
+    }
+    List<Response__c> accsToDelete = [Select id from Response__c where ID IN: accToDeleteIds ];
+    
+    
+    if(accsToDelete.size() > 0)
+        delete accsToDelete;
+    
+    
+}
