@@ -1,0 +1,18 @@
+public class Covid_Data_Request {
+public static String endpoint = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin';
+public static String body = '';
+    public static HttpRequest dataRequest(String a_Date , String a_Pincode)
+    {
+        HttpRequest request = new HttpRequest();
+        String address = endpoint + '?pincode='+ a_Pincode + '&' + 'date=' + a_Date;
+        request.setHeader('accept', 'application/json');
+        request.setHeader('Accept-Language', 'IN');
+        request.setEndpoint(address);
+        System.debug('Endpoint >>> ' + address);
+     //   request.setBody(body);
+        request.setMethod('GET');
+        
+        return request;
+        
+    }
+}
