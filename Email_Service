@@ -1,0 +1,56 @@
+public class Email_Service {
+    
+    public static void send_Vaccination_Details(List<Response__c> centers,String a_Pincode,String emailID)
+    {
+        List<String> emails = new List<String>();
+        //To send the email notification to all the people living in the pincode area who are registered in the Salesforce database.
+        List<Person__c> users = [Select Name,Email__c,Pincode__c from Person__c where Pincode__c =:a_Pincode and Email__c !=:emailID];
+        for(Person__c p : users)
+            emails.add(p.Email__c);
+        emails.add(emailID);
+        Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
+        email.setSubject('COVID-19 Vaccination Centers Details');
+        String s = 'Hello Sir/Ma\'am, <br/> Please Find below the details for the vaccination.<br/>'+
+            '"DON\'T HESITATE LET\'S VACCINATE" <br/>' +
+            '--------------------------------------------------------------------------------------'+'<br/>';
+        
+        //Add the centers details one by one to the email body.
+        for(Response__c center : centers)
+        {
+            s += 'Name = ' + center.Name + '<br/>';
+            s += 'Address = ' + center.Address__c + '<br/>';
+            s += 'Vaccine = ' + center.Vaccine__c + '<br/>';
+            s += 'Center ID = ' + center.Center_ID__c + '<br/>';
+            s += 'Date = ' + center.Date__c + '<br/>';
+            s += 'Fee Type = ' + center.Fee_Type__c + '<br/>';
+            s += 'Fee = ' + center.Fee__c + '<br/>';
+            s += 'Available Capacity Dose_1 = ' + center.Available_Capacity_Dose_1__c + '<br/>';
+            s += 'Available Capacity Dose_2 = ' + center.Available_Capacity_Dose_2__c + '<br/>';
+            s += 'Starting From = ' + center.Starting_From__c + '<br/>';
+            s += 'Closing At = ' + center.Closing_Time__c + '<br/>';
+            s += 'Minimum Age Limit = ' + center.Minimum_Age_Limit__c + '<br/>'
+                + '--------------------------------------------------------------------------------------'+'<br/><br/>';
+        }
+        
+        OrgWideEmailAddress[] owea = [select Id from OrgWideEmailAddress where Address = 'saurabhnikalje10@gmail.com'];
+        if(owea.size() > 0)
+        {
+            email.setOrgWideEmailAddressId(owea.get(0).ID);
+        }
+        email.setHtmlBody(s);
+        email.setToAddresses(emails);
+        // email.setTargetObjectId( UserInfo.getUserId() );
+        // email.setSaveAsActivity( false );
+        //
+        email.setReplyTo('saurabhnikalje2@gmail.com');
+        System.debug('emails IDS' + emails);
+        System.debug('email' + email);
+        Messaging.SendEmailResult[] results = Messaging.sendEmail(New Messaging.SingleEmailMessage[]{email});  
+        if(results[0].success)
+            System.debug('EMAILS SEND SUCCESSFULLY >>>>>>');
+        
+        
+        
+        
+    }
+}
