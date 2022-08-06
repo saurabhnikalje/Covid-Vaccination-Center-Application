@@ -1,0 +1,89 @@
+@isTest
+public class Covid_Api_Class_Test {
+
+    @isTest(SeeAllData=true) 
+    public static void get_Details_Service_Test()
+    {
+        Test.setMock(HttpCalloutMock.class,new MockApiCallout());
+        try{ 
+            List<Response__c> test =  Covid_Api_Class.get_Details_Service('15-12-2021', '411038' , 'demo@gmail.com');
+            System.assertNotEquals(test, null);
+           }
+        catch(Exception TypeException){
+               
+           }
+    }
+    Public class MockApiCallout implements HttpCalloutMock{
+        public HttpResponse respond(HTTPRequest req){
+            String sampledata = '{'+
+  '"sessions": ['+
+    '{'+
+      '"center_id": 716110,'+
+      '"name": "PMC P Borse Nursing Home",'+
+      '"address": "SR NO 98 BHUSARI COLONY PAUD ROAD KOTHRUD",'+
+      '"state_name": "Maharashtra",'+
+      '"district_name": "Pune",'+
+      '"block_name": "Haveli",'+
+      '"pincode": 411038,'+
+      '"from": "10:00:00",'+
+      '"to": "17:00:00",'+
+      '"lat": 18,'+
+      '"long": 73,'+
+      '"fee_type": "Paid",'+	
+      '"session_id": "40e31b6c-9631-41ae-b7ad-703d6b48804f",'+
+      '"date": "15-12-2021",'+
+      '"available_capacity": 99,'+
+      '"available_capacity_dose1": 50,'+
+      '"available_capacity_dose2": 49,'+
+      '"fee": "780",'+
+      '"min_age_limit": 18,'+
+      '"allow_all_age": true,'+
+      '"vaccine": "COVISHIELD",'+
+      '"slots": ['+
+        '"10:00AM-12:00PM",'+
+        '"12:00PM-02:00PM",'+
+        '"02:00PM-04:00PM",'+
+        '"04:00PM-05:00PM"'+
+      ']'+
+    '}'+
+  ']'+
+'}';
+            
+       	 	HttpResponse res = new HttpResponse();
+         	res.setHeader('Content-Type', 'application/xml');
+       	 	res.setBody(sampledata);      		
+            res.setStatusCode(200);
+        	return res;
+        }
+        
+    }
+    
+    
+    
+    //Covering negative test case where we don't have any records to upsert into database.
+    @isTest
+      public static void get_Details_Service_Test2()
+    {
+        Test.setMock(HttpCalloutMock.class,new MockApiCallout2());
+        try{ 
+            List<Response__c> test =  Covid_Api_Class.get_Details_Service('15-12-2021', '000000','demo@gmail.com');
+            System.assert(test.size() == 0);
+           }
+        catch(Exception TypeException){
+               
+           }
+    }
+    
+       Public class MockApiCallout2 implements HttpCalloutMock{
+        public HttpResponse respond(HTTPRequest req){
+            String sampledata = '{"sessions":[]}';
+            HttpResponse res = new HttpResponse();
+         	res.setHeader('Content-Type', 'application/xml');
+       	 	res.setBody(sampledata);      		
+            res.setStatusCode(200);
+        	return res;
+        }
+        
+    }
+    
+}
