@@ -1,0 +1,57 @@
+@isTest
+public class Duplicate_Test {
+
+    @testSetup
+    public static void testData()
+    {
+          Response__c tempObj = new Response__c();
+   		  tempObj.Name = 'Name';
+          tempObj.Center_ID__c = 712528;
+          tempObj.Address__c = 'address';
+          tempObj.State__c = 'state_name';
+   		  tempObj.District__c = 'district_name';
+   		  tempObj.Block_Name__c = 'block_name';
+   		  tempObj.Pincode__c = 'pincod';
+   		  tempObj.Starting_From__c = 'from';
+          tempObj.Closing_Time__c = 'to';
+   		  tempObj.Lattitude__c = 21;
+          tempObj.Longitude__c = 12;
+          tempObj.Fee_Type__c = 'Paid';
+          tempObj.Session_ID__c = 'session_id';
+          tempObj.Date__c = 'date';
+          tempObj.Available_Capacity__c = 21;
+          tempObj.Available_Capacity_Dose_1__c = 2;
+          tempObj.Available_Capacity_Dose_2__c = 19;
+          tempObj.Fee__c = 'fee';
+          tempObj.Minimum_Age_Limit__c = 18;
+          tempObj.Vaccine__c = 'vaccine';
+           insert tempObj;
+    }
+    
+    @isTest
+    public static void recordDeletionTest()
+    {
+          Response__c tempObj = new Response__c();
+   		  tempObj.Name = 'Name1';
+          tempObj.Center_ID__c = 712528;
+          tempObj.Address__c = 'address1';
+          tempObj.State__c = 'state_name1';
+   		  tempObj.District__c = 'district_name1';
+   		  tempObj.Block_Name__c = 'block_name1';
+   		  tempObj.Pincode__c = 'pincod';
+   		  tempObj.Starting_From__c = 'from1';
+          tempObj.Closing_Time__c = 'to1';
+   		  tempObj.Lattitude__c = 21;
+          tempObj.Longitude__c = 12;
+          tempObj.Fee_Type__c = 'Paid';
+          tempObj.Session_ID__c = 'session_id1';
+          tempObj.Date__c = 'date';
+          tempObj.Available_Capacity__c = 21;
+          tempObj.Available_Capacity_Dose_1__c = 2;
+          tempObj.Available_Capacity_Dose_2__c = 19;
+          tempObj.Fee__c = 'fee';
+          tempObj.Minimum_Age_Limit__c = 18;
+          tempObj.Vaccine__c = 'vaccine';
+           insert tempObj;
+    }
+}
