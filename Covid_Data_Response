@@ -1,0 +1,9 @@
+public class Covid_Data_Response {
+
+    public static HttpResponse dataResponse(HttpRequest request)
+    {
+        Http http = new Http();
+        HttpResponse response = http.send(request);
+        return response;
+    }
+}
